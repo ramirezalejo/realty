@@ -1,3 +1,11 @@
+input createLeaseInput {
+  data: LeaseInput
+}
+
+type createLeasePayload {
+  lease: Lease
+}
+
 input createRealtyInput {
   data: RealtyInput
 }
@@ -14,6 +22,14 @@ type createRolePayload {
   role: UsersPermissionsRole
 }
 
+input createSaleInput {
+  data: SaleInput
+}
+
+type createSalePayload {
+  sale: Sale
+}
+
 input createUserInput {
   data: UserInput
 }
@@ -26,6 +42,14 @@ type createUserPayload {
 The `DateTime` scalar represents a date and time following the ISO 8601 standard
 """
 scalar DateTime
+
+input deleteLeaseInput {
+  where: InputID
+}
+
+type deleteLeasePayload {
+  lease: Lease
+}
 
 input deleteRealtyInput {
   where: InputID
@@ -41,6 +65,14 @@ input deleteRoleInput {
 
 type deleteRolePayload {
   role: UsersPermissionsRole
+}
+
+input deleteSaleInput {
+  where: InputID
+}
+
+type deleteSalePayload {
+  sale: Sale
 }
 
 input deleteUserInput {
@@ -64,10 +96,20 @@ input editFileInput {
   related: [ID]
 }
 
+input editLeaseInput {
+  description: String
+  amount: Float
+  available: Boolean
+  realty: ID
+}
+
 input editRealtyInput {
   name: String
   description: String
-  image: ID
+  images: [ID]
+  visible: Boolean
+  lease: ID
+  sale: ID
 }
 
 input editRoleInput {
@@ -76,6 +118,14 @@ input editRoleInput {
   type: String
   permissions: [ID]
   users: [ID]
+}
+
+input editSaleInput {
+  name: String
+  description: String
+  amount: Float
+  available: Boolean
+  realty: ID
 }
 
 input editUserInput {
@@ -111,12 +161,35 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Realty | createRealtyPayload | updateRealtyPayload | deleteRealtyPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+type Lease {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  description: String
+  amount: Float
+  available: Boolean
+  realty: Realty
+}
+
+input LeaseInput {
+  description: String
+  amount: Float
+  available: Boolean
+  realty: ID
+}
+
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Lease | createLeasePayload | updateLeasePayload | deleteLeasePayload | Realty | createRealtyPayload | updateRealtyPayload | deleteRealtyPayload | Sale | createSalePayload | updateSalePayload | deleteSalePayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
+  createLease(input: createLeaseInput): createLeasePayload
+  updateLease(input: updateLeaseInput): updateLeasePayload
+  deleteLease(input: deleteLeaseInput): deleteLeasePayload
   createRealty(input: createRealtyInput): createRealtyPayload
   updateRealty(input: updateRealtyInput): updateRealtyPayload
   deleteRealty(input: deleteRealtyInput): deleteRealtyPayload
+  createSale(input: createSaleInput): createSalePayload
+  updateSale(input: updateSaleInput): updateSalePayload
+  deleteSale(input: deleteSaleInput): deleteSalePayload
 
   """Create a new role"""
   createRole(input: createRoleInput): createRolePayload
@@ -139,8 +212,12 @@ type Mutation {
 }
 
 type Query {
+  lease(id: ID!): Lease
+  leases(sort: String, limit: Int, start: Int, where: JSON): [Lease]
   realty(id: ID!): Realty
   realties(sort: String, limit: Int, start: Int, where: JSON): [Realty]
+  sale(id: ID!): Sale
+  sales(sort: String, limit: Int, start: Int, where: JSON): [Sale]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
   role(id: ID!): UsersPermissionsRole
 
@@ -159,13 +236,19 @@ type Realty {
   updated_at: DateTime!
   name: String
   description: String
-  image: UploadFile
+  visible: Boolean
+  lease: Lease
+  sale: Sale
+  images(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
 }
 
 input RealtyInput {
   name: String
   description: String
-  image: ID
+  images: [ID]
+  visible: Boolean
+  lease: ID
+  sale: ID
 }
 
 input RoleInput {
@@ -174,6 +257,34 @@ input RoleInput {
   type: String
   permissions: [ID]
   users: [ID]
+}
+
+type Sale {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  name: String
+  description: String
+  amount: Float
+  available: Boolean
+  realty: Realty
+}
+
+input SaleInput {
+  name: String
+  description: String
+  amount: Float
+  available: Boolean
+  realty: ID
+}
+
+input updateLeaseInput {
+  where: InputID
+  data: editLeaseInput
+}
+
+type updateLeasePayload {
+  lease: Lease
 }
 
 input updateRealtyInput {
@@ -192,6 +303,15 @@ input updateRoleInput {
 
 type updateRolePayload {
   role: UsersPermissionsRole
+}
+
+input updateSaleInput {
+  where: InputID
+  data: editSaleInput
+}
+
+type updateSalePayload {
+  sale: Sale
 }
 
 input updateUserInput {

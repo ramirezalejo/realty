@@ -1,8 +1,8 @@
 {
   "connection": "default",
-  "collectionName": "realties",
+  "collectionName": "sales",
   "info": {
-    "name": "realty",
+    "name": "sale",
     "description": ""
   },
   "options": {
@@ -19,23 +19,17 @@
       "default": "",
       "type": "text"
     },
-    "images": {
-      "collection": "file",
-      "via": "related",
-      "plugin": "upload",
-      "required": false
+    "amount": {
+      "default": "",
+      "type": "decimal"
     },
-    "visible": {
+    "available": {
       "default": false,
       "type": "boolean"
     },
-    "lease": {
-      "model": "lease",
-      "via": "realty"
-    },
-    "sale": {
-      "model": "sale",
-      "via": "realty"
+    "realty": {
+      "model": "realty",
+      "via": "sale"
     }
   }
 }

@@ -1,0 +1,31 @@
+{
+  "connection": "default",
+  "collectionName": "leases",
+  "info": {
+    "name": "lease",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "description": {
+      "default": "",
+      "type": "text"
+    },
+    "amount": {
+      "default": "",
+      "type": "decimal"
+    },
+    "available": {
+      "default": false,
+      "type": "boolean"
+    },
+    "realty": {
+      "model": "realty",
+      "via": "lease"
+    }
+  }
+}
