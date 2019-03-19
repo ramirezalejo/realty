@@ -1,10 +1,8 @@
-import React from 'react'
-import Link from 'next/link'
-import Head from '../components/head'
-import Nav from '../components/nav'
-import Layout from "../components/Layout";
-import RealtyList from "../components/RealtyList";
+/* /pages/index.js */
 
+import RealtyList from "../components/RealtyList";
+import React from "react";
+import defaultPage from "../hocs/defaultPage";
 import {
   Alert,
   Button,
@@ -55,4 +53,4 @@ class Index extends React.Component {
   }
 }
 
-export default Index;
+export default defaultPage(Index);
