@@ -83,14 +83,14 @@ var contentToRender = (searchQuery) => {
           </CardBody>
            <div className="card-footer">
            {res.lease && <Link
-              as={`/leases/${res.lease.id}`}
-              href={`/leases?id=${res.lease.id}`}
+              as={`/lease/${res.lease.id}`}
+              href={`/lease?id=${res.lease.id}`}
             >
               <a className="btn btn-primary">Arriendo</a>
             </Link>}
             {res.sale && <Link
-              as={`/sales/${res.sale.id}`}
-              href={`/sales?id=${res.sale.id}`}
+              as={`/sale/${res.sale.id}`}
+              href={`/sale?id=${res.sale.id}`}
               visible={res.sale}
             >
               <a className="btn btn-primary">Venta</a>
