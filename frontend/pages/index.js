@@ -39,7 +39,7 @@ class Index extends React.Component {
                 <Input onChange={this.onChange.bind(this)} />
               </InputGroup>
             </div>
-            <RealtyList search={this.state.query} />
+            <RealtyList search={this.state.query} props={this.props}/>
           </Col>
         </Row>
         <style jsx>
